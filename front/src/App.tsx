@@ -1,33 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import mtuci from './images/mtuci.jpg'
+import back from './images/back.jpeg'
+import './AdaptiveImage.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+
+interface AdaptiveImageProps {
+  src: string;
+  alt: string;
+  mobileSrc?: string;
+  tabletSrc?: string;
+}
+
+const AdaptiveImage: React.FC<AdaptiveImageProps> = ({ 
+  src, 
+  alt, 
+  mobileSrc, 
+  tabletSrc 
+}) => {
+  return (
+    <picture>
+      {/* Мобильные устройства */}
+      {mobileSrc && (
+        <source 
+          media="(max-width: 768px)" 
+          srcSet={mobileSrc} 
+        />
+      )}
+      
+      {/* Планшеты */}
+      {tabletSrc && (
+        <source 
+          media="(max-width: 1024px)" 
+          srcSet={tabletSrc} 
+        />
+      )}
+      
+      {/* Десктоп и fallback */}
+      <img 
+        src={src} 
+        alt={alt}
+        className="adaptive-img"
+      />
+    </picture>
+  );
+};
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="header">
+        <div className="logo"><img src={mtuci} alt="mtuci" /></div>
+        <nav className="nav">
+          <a href="#home" className="nav-link">HOME</a>
+          <a href="#about" className="nav-link">ABOUT</a>
+          <a href="#contacts" className="nav-link">CONTACTS</a>
+        </nav>
+        <div className="login"><a href="#login" className='link-login'>Login</a></div>
+      </header>
+
+      <main className="main-content">
+        <div className="back">{AdaptiveImage}</div>
+        <div className="college-info"></div>
+      </main>
     </>
   )
 }
