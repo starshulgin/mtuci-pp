@@ -1,4 +1,4 @@
-/*import axios from 'axios';
+import axios from 'axios';
 
 // Безопасное получение переменной окружения
 const getApiBaseUrl = (): string => {
@@ -16,11 +16,11 @@ const getApiBaseUrl = (): string => {
   return 'http://localhost:3001/api';
 };
 
-const API_BASE_URL = getApiBaseUrl();
+const VITE_API_URL = getApiBaseUrl();
 
 // Создаем экземпляр axios с настройками
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: VITE_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ api.interceptors.response.use(
 export interface LoginData {
   username: string;
   password: string;
-  userType: string;
+  userType?: 'student' | 'staff' | 'admin'; // Сделать необязательным
 }
 
 export interface User {
@@ -68,8 +68,14 @@ export interface User {
   firstName: string;
   lastName: string;
   userType: 'student' | 'staff' | 'admin';
-  program?: string;
   studentId?: string;
+  program?: string;
+  department?: string; // Добавьте это поле
+  position?: string;   // Добавьте это поле
+  avatar?: string;
+  phoneNumber?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AuthResponse {
@@ -111,5 +117,158 @@ export const userAPI = {
   },
 };
 
+
+export interface Room {
+  id: string;
+  number: string;
+  name?: string;
+  type: 'lecture' | 'lab' | 'practice' | 'computer' | 'conference' | 'other';
+  typeDisplay: string; // Для отображения на русском
+  capacity: number;
+  building: string;
+  floor: number;
+  status: 'available' | 'occupied' | 'maintenance';
+  statusDisplay: string; // Для отображения на русском
+  equipment?: string[];
+  description?: string;
+  schedule?: RoomSchedule[];
+}
+
+export interface RoomSchedule {
+  id: string;
+  roomId: string;
+  startTime: string;
+  endTime: string;
+  subject: string;
+  teacher?: string;
+  group?: string;
+}
+
+export interface RoomSearchParams {
+  query?: string;
+  building?: string;
+  floor?: number;
+  type?: string;
+  status?: string;
+  minCapacity?: number;
+  maxCapacity?: number;
+}
+
+// API функции для работы с кабинетами
+export const roomAPI = {
+  // Поиск кабинетов
+  searchRooms: async (params: RoomSearchParams): Promise<Room[]> => {
+    try {
+      const response = await fetch('/api/rooms/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify(params)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch rooms');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error searching rooms:', error);
+      throw error;
+    }
+  },
+
+  // Получить все кабинеты
+  getAllRooms: async (): Promise<Room[]> => {
+    try {
+      const response = await fetch('/api/rooms', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch rooms');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching rooms:', error);
+      throw error;
+    }
+  },
+
+  // Получить кабинет по ID
+  getRoomById: async (id: string): Promise<Room> => {
+    try {
+      const response = await fetch(`/api/rooms/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch room');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching room:', error);
+      throw error;
+    }
+  },
+
+  // Получить расписание кабинета
+  getRoomSchedule: async (roomId: string, date?: string): Promise<RoomSchedule[]> => {
+    try {
+      const url = date 
+        ? `/api/rooms/${roomId}/schedule?date=${date}`
+        : `/api/rooms/${roomId}/schedule`;
+      
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch schedule');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching schedule:', error);
+      throw error;
+    }
+  },
+
+  // Забронировать кабинет
+  bookRoom: async (roomId: string, bookingData: {
+    startTime: string;
+    endTime: string;
+    purpose: string;
+    group?: string;
+  }): Promise<void> => {
+    try {
+      const response = await fetch(`/api/rooms/${roomId}/book`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify(bookingData)
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to book room');
+      }
+    } catch (error) {
+      console.error('Error booking room:', error);
+      throw error;
+    }
+  }
+};
+
 export default api;
-*/
