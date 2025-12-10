@@ -1,0 +1,246 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f5f5;
+}
+
+/* Левая часть */
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.college-info {
+  max-width: 500px;
+  text-align: center;
+}
+
+.college-header {
+  margin-bottom: 3rem;
+}
+
+.college-abbr {
+  font-size: 4.5rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 2px;
+  background: linear-gradient(to right, #fff, #e3f2fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.college-fullname {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.college-motto {
+  font-size: 1.3rem;
+  font-style: italic;
+  opacity: 0.8;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding-top: 2rem;
+  margin-top: 2rem;
+}
+
+/* Правая часть */
+.login-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  padding: 2rem;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h2 {
+  font-size: 2rem;
+  color: #1a237e;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.login-subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Сообщение об ошибке */
+.error-message {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 1.5rem;
+  color: #d4380d;
+  font-size: 0.9rem;
+}
+
+.error-icon {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+/* Форма */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+/* Убираем старые стили, т.к. в JSX нет .form-input класса */
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1a237e;
+  box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+}
+
+.form-group input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+/* Кнопка входа */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 35, 126, 0.2);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Убираем ненужные стили для .login-button, .spinner и т.д. */
+
+/* Футер формы */
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.back-home-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.3s;
+}
+
+.back-home-btn:hover {
+  color: #1a237e;
+}
+
+.forgot-password {
+  color: #1a237e;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #283593;
+  text-decoration: underline;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+  }
+  
+  .login-left {
+    padding: 2rem 1rem;
+    min-height: 300px;
+  }
+  
+  .college-abbr {
+    font-size: 3rem;
+  }
+  
+  .college-fullname {
+    font-size: 0.9rem;
+  }
+  
+  .college-motto {
+    font-size: 1.1rem;
+  }
+  
+  .login-container {
+    padding: 2rem;
+  }
+  
+  .login-header h2 {
+    font-size: 1.75rem;
+  }
+}
